@@ -16,6 +16,9 @@ LogMore::open('ZipArchiveEx');
  */
 class ZipArchiveEx extends ZipArchive {
 
+    // Public variable for save list exclude directory
+	public $exclude_dir;
+
 	/**
 	 * Function: addDir
 	 *
@@ -32,6 +35,32 @@ class ZipArchiveEx extends ZipArchive {
 	public function addDir($dirname) {
 		LogMore::debug('In addDir');
 		return $this->recursiveAddDir($dirname);
+	}
+
+	/**
+	 * Function: excludeDir
+	 *
+	 * Wrapper for the recursiveAddDir method.
+	 *
+	 * Parameters:
+	 *
+	 * 	$dirname - The directory to exclude.
+	 *
+	 * Returns:
+	 *
+	 * 	TRUE on success or FALSE on failure.
+	 */
+	public function excludeDir($dirname){
+		LogMore::debug('Excluding dir '.$dirname);
+        if(substr($dirname, -1) == '/'){
+            $dirname = substr ($dirname, 0, -1);
+        }
+
+		if(empty($this->exclude_dir)){
+			$this->exclude_dir = array($dirname);
+		}else{
+			array_push($this->exclude_dir,$dirname);
+		}
 	}
 
 
@@ -57,7 +86,6 @@ class ZipArchiveEx extends ZipArchive {
 		return $this->recursiveAddDir($dirname, null, false);
 	}
 
-
 	/**
 	 * Function: recursiveAddDir
 	 *
@@ -82,9 +110,9 @@ class ZipArchiveEx extends ZipArchive {
 	{
 		LogMore::debug('In recursiveAddDir');
 		$rc = false;
-
-		# If $dirname is a directory
-		if (is_dir($dirname)) {
+		$basename_exclude = $basedir . basename($dirname);
+		# If $dirname is a directory and not is exclude dir
+		if (is_dir($dirname) && !in_array($basename_exclude, $this->exclude_dir)) {
 			LogMore::debug('Is a directory: %s', $dirname);
 
 			# Save current working directory
