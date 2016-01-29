@@ -41,16 +41,11 @@ ZipArchiveEx is provided as Composer package and can be installed via Packagist.
 - Version 1.0.0 released on 2012-09-18
 
 
-# Credits and Bugreports
-
-JuggleCode was written by Codeless (http://www.codeless.at/). All bugreports can be directed to more@codeless.at. Even better, bugreports are posted on the github-repository of this package: https://www.github.com/codeless/ziparchiveex.
-
-
 # License
 
 ZipArchiveEx is available under the MIT license:
 
-Copyright (c) 2012 Manuel Hiptmair <more@codeless.at>
+Copyright (c) 2012 <more@codeless.at>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

@@ -12,7 +12,7 @@ class ZipArchiveExTest extends PHPUnit_Framework_TestCase {
 		return array(
 			array('invalid dir', false, null),
 			array('tests/zipme', true, null),
-			array('tests/zipme', true, 'README')
+			array('tests/zipme', true, 'README'),
 		);
 	}
 
@@ -91,7 +91,11 @@ class ZipArchiveExTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider provideTestDirs
 	 */
-	public function testAddDirContents($dirname, $expected_result, $manipulate) {
+	public function testAddDirContents(
+		$dirname,
+		$expected_result,
+		$manipulate)
+	{
 		self::testAddDir($dirname, $expected_result, $manipulate, true);
 	}
 

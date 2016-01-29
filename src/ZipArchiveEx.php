@@ -16,8 +16,10 @@ LogMore::open('ZipArchiveEx');
  */
 class ZipArchiveEx extends ZipArchive {
 
-    // Public variable for save list exclude directory
-	public $exclude_dir;
+	/**
+	 * Public variable for save list exclude directory
+	 */
+	public $exclude_dir = null;
 
 	/**
 	 * Function: addDir
@@ -52,15 +54,16 @@ class ZipArchiveEx extends ZipArchive {
 	 */
 	public function excludeDir($dirname){
 		LogMore::debug('Excluding dir '.$dirname);
-        if(substr($dirname, -1) == '/'){
-            $dirname = substr ($dirname, 0, -1);
-        }
 
-		if(empty($this->exclude_dir)){
-			$this->exclude_dir = array($dirname);
-		}else{
-			array_push($this->exclude_dir,$dirname);
+		if(substr($dirname, -1) == '/'){
+			$dirname = substr ($dirname, 0, -1);
 		}
+
+		if (!$this->exclude_dir) {
+			$this->exclude_dir = array();
+		}
+
+		$this->exclude_dir[] = $dirname;
 	}
 
 
@@ -112,7 +115,10 @@ class ZipArchiveEx extends ZipArchive {
 		$rc = false;
 		$basename_exclude = $basedir . basename($dirname);
 		# If $dirname is a directory and not is exclude dir
-		if (is_dir($dirname) && !in_array($basename_exclude, $this->exclude_dir)) {
+		if (	is_dir($dirname) &&
+			($this->exclude_dir &&
+			!in_array($basename_exclude, $this->exclude_dir)))
+		{
 			LogMore::debug('Is a directory: %s', $dirname);
 
 			# Save current working directory
